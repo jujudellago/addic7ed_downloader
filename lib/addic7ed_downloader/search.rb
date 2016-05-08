@@ -12,6 +12,24 @@ module Addic7edDownloader
 
     attr_accessor :showname, :season, :episode, :lang, :tags, :path
 
+    def self.by_filename(filename, options = {})
+      showname = filename[SHOWNAME_REGEXP, 1].strip
+      season   = filename[SEASON_REGEXP, 1].to_i
+      episode  = filename[EPISODE_REGEXP, 1].to_i
+      options[:tags] = filename[TAGS_REGEXP, 1].split(TAGS_FILTER_REGEXP)
+
+      new(showname, season, episode, options)
+    end
+
+    def self.by_string(search_string, options = {})
+      showname = search_string[SHOWNAME_REGEXP, 1].strip
+      season   = search_string[SEASON_REGEXP, 1].to_i
+      episode  = search_string[EPISODE_REGEXP, 1].to_i
+      options[:tags] = options[:filename][TAGS_REGEXP, 1].split(TAGS_FILTER_REGEXP) if options[:filename]
+
+      new(showname, season, episode, options)
+    end
+
     def initialize(showname, season, episode, options = {})
       @showname = showname
       @season = season.to_i
@@ -81,7 +99,7 @@ module Addic7edDownloader
 
       # Create a list with results
       subtitles = page.css('div#container95m').each_with_object([]) do |subtitle, list|
-        list << Addic7ed::Subtitle.new(subtitle) if subtitle.at('.NewsTitle')
+        list << Subtitle.new(subtitle) if subtitle.at('.NewsTitle')
       end
 
       subtitles.sort!.reverse!
