@@ -47,10 +47,9 @@ module Addic7edDownloader
       return if results.empty?
 
       # We can refine the search with tags
-      # Only version match
       unless @tags.empty?
         results.each do |subtitle|
-          return subtitle if @tags.include?(subtitle.version) && subtitle.completed?
+          return subtitle if @tags.any? { |tag| subtitle.works_with?(tag) }
         end
       end
 
