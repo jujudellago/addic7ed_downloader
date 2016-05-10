@@ -102,7 +102,9 @@ module Addic7edDownloader
         list << Subtitle.new(subtitle) if subtitle.at('.NewsTitle')
       end
 
-      subtitles.sort!.reverse!
+      # We return the completed subtitles, ordered by downloads desc
+      # Using bang methods for memory performance
+      subtitles.select(&:completed?).sort!.reverse!
     end
   end
 end
