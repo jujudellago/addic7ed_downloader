@@ -86,7 +86,7 @@ module Addic7edDownloader
     end
 
     def url
-      @url ||= URI.encode("#{BASE_URL}/serie/#{@showname}/#{@season}/#{@episode}/#{LANGUAGES[@lang][:id]}")
+      @url ||= "#{BASE_URL}/serie/#{CGI.escape(@showname)}/#{@season}/#{@episode}/#{LANGUAGES[@lang][:id]}"
     end
 
     def build_subtitles_list
