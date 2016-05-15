@@ -72,6 +72,7 @@ module Addic7edDownloader
 
       raise unless response.headers['content-type'].include? 'text/srt'
 
+      # Get file name from headers
       filename = response.headers['content-disposition'][/filename=\"(.+?)\"/, 1]
       open(filename, 'w') { |f| f << response }
 

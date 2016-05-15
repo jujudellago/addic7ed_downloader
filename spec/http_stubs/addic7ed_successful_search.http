@@ -1,3 +1,12 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 15 May 2016 19:18:17 GMT
+Connection: keep-alive
+X-Powered-By: PHP/5.3.3
+Set-Cookie: PHPSESSID=qidb78epclj7etl3s9s84asg86; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
