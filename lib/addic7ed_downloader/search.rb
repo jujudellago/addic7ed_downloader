@@ -6,37 +6,34 @@ module Addic7edDownloader
     BASE_URL = 'http://www.addic7ed.com'.freeze
     DEFAULTS = {
       lang: 'en',
-      tags: [],
-      path: './'
+      tags: []
     }.freeze
 
     attr_accessor :showname, :season, :episode, :lang, :tags, :path
 
     def self.by_filename(filename, options = {})
-      showname = filename[SHOWNAME_REGEXP, 1].strip
-      season   = filename[SEASON_REGEXP, 1].to_i
-      episode  = filename[EPISODE_REGEXP, 1].to_i
-      options[:tags] = filename[TAGS_REGEXP, 1].split(TAGS_FILTER_REGEXP)
+      showname = filename[SHOWNAME_REGEXP, :showname].strip
+      season   = filename[SEASON_EPISODE_REGEXP, :season].to_i
+      episode  = filename[SEASON_EPISODE_REGEXP, :episode].to_i
+      options[:tags] = filename[TAGS_REGEXP, :tags].split(TAGS_FILTER_REGEXP)
 
       new(showname, season, episode, options)
-    end
-
-    def self.by_string(search_string, options = {})
-      showname = search_string[SHOWNAME_REGEXP, 1].strip
-      season   = search_string[SEASON_REGEXP, 1].to_i
-      episode  = search_string[EPISODE_REGEXP, 1].to_i
-      options[:tags] = options[:filename][TAGS_REGEXP, 1].split(TAGS_FILTER_REGEXP) if options[:filename]
-
-      new(showname, season, episode, options)
+    rescue NoMethodError
+      # Failed to parse
+      nil
     end
 
     def initialize(showname, season, episode, options = {})
-      @showname = showname
+      @showname = showname.tr('.', ' ')
       @season = season.to_i
       @episode = episode.to_i
 
       opts = DEFAULTS.merge(options)
-      @lang, @tags, @path = opts.values_at(:lang, :tags, :path)
+      @lang, @tags = opts.values_at(:lang, :tags)
+    end
+
+    def to_s
+      "#{@showname.split.map(&:capitalize).join(' ')} #{sprintf('%02dx%02d', @season, @episode)}"
     end
 
     def results
@@ -57,11 +54,11 @@ module Addic7edDownloader
       results.first
     end
 
-    def download_best
-      download_subtitle(find_best_subtitle)
+    def download_best(path = './')
+      download_subtitle(find_best_subtitle, path)
     end
 
-    def download_subtitle(subtitle)
+    def download_subtitle(subtitle, path = './')
       return unless subtitle
 
       # Addic7ed needs the correct Referer to be set
@@ -74,7 +71,7 @@ module Addic7edDownloader
 
       # Get file name from headers
       filename = response.headers['content-disposition'][/filename=\"(.+?)\"/, 1]
-      open(filename, 'w') { |f| f << response }
+      open(File.join(path, filename), 'w') { |f| f << response }
 
       # return subtitle filename
       filename
@@ -103,7 +100,6 @@ module Addic7edDownloader
       end
 
       # We return the completed subtitles, ordered by downloads desc
-      # Using bang methods for memory performance
       subtitles.select(&:completed?).sort!.reverse!
     end
   end

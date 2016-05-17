@@ -1,9 +1,9 @@
 module Addic7edDownloader
-  SHOWNAME_REGEXP = /([\w\s]+?) s\d{1,2}e\d{1,2}/i
-  SEASON_REGEXP = /s(\d{1,2})e\d{1,2}/i
-  EPISODE_REGEXP = /s\d{1,2}e(\d{1,2})/i
-  TAGS_REGEXP = /s\d{1,2}e\d{1,2} (.*)/i
-  TAGS_FILTER_REGEXP = /(?<!WEB)-(?!DL)|[\.\s\(\)\[\]]+/ # Filter '-', but not 'WEB-DL'
+  # Assuming: "SHOWNAME - SEASON&EPISODE - TAGS"
+  SEASON_EPISODE_REGEXP = /s(?<season>\d{1,2})e(?<episode>\d{1,2})|(?<season>\d{1,2})x(?<episode>\d{1,2})/i
+  SHOWNAME_REGEXP = /(?<showname>[\w\s\.]+?)[\s\.-]*?#{SEASON_EPISODE_REGEXP}/i
+  TAGS_REGEXP = /#{SEASON_EPISODE_REGEXP}[\s\.-]?(?<tags>.*)/i  # Get the end of file
+  TAGS_FILTER_REGEXP = /(?<!WEB)-(?!DL)|[\.\s\(\)\[\]]+/i       # Filter '-', but not 'WEB-DL'
 
   # Ripped from gem addic7ed (Check them out!)
   LANGUAGES = {
