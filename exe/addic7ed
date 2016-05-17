@@ -1,0 +1,103 @@
+#!/usr/bin/env ruby -w
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w( .. lib ))
+
+require 'addic7ed_downloader'
+require 'fileutils'
+require 'highline'
+require 'optparse'
+
+options = {
+  rename: true,
+  language: 'en',
+  path: './'
+}
+
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: addic7ed [options] <search or video file>'
+
+  opts.on('-y', '--auto-download', 'Download best result without confirmation') do
+    options[:auto] = true
+  end
+
+  opts.on('-L', '--list', 'List languages.') do
+    puts 'Available languages:'
+    Addic7edDownloader::LANGUAGES.each { |key, value| puts "#{key}:\t#{value[:name]}" }
+    exit
+  end
+
+  opts.on('-l LANGUAGE', '--language LANGUAGE', 'Language code to look subtitles for (default: English)') do |l|
+    options[:language] = l
+  end
+
+  opts.on('-n', '--no-rename', "Don't automatically rename subtitles if the file exists") do
+    options[:rename] = false
+  end
+
+  opts.on('-p PATH', '--path PATH', 'Path to save the file') do |p|
+    options[:path] = p
+  end
+
+  opts.on('-v', '--version', 'Print version and exit') do
+    puts "addic7ed v#{Addic7edDownloader::VERSION}"
+    exit
+  end
+
+  opts.on_tail('-h', '--help', 'Show this message') do
+    puts opts
+    exit
+  end
+end.parse!
+
+# Join arguments to create the search term
+options[:search] = optparse.join(' ')
+
+# main program
+begin
+  cli = HighLine.new
+  HighLine.colorize_strings # Monkey patch String for cli colors
+
+  # Valid search?
+  if options[:search].empty?
+    cli.say 'Please choose a file or type a search'.red
+    exit
+  end
+
+  # Search subtitle
+  search = Addic7edDownloader::Search.by_filename(options[:search], lang: options[:language])
+
+  # Results found?
+  if search.nil?
+    cli.say 'Error parsing the file or search'.red
+    exit
+  elsif search.results.empty?
+    cli.say 'No subtitles found'.red
+    exit
+  end
+
+  # Choose
+  if options[:auto]
+    subtitles = search.find_best_subtitle
+  else
+    cli.say "Search results for #{search}. Choose the file:"
+    subtitles = cli.choose(*search.results) do |menu|
+      menu.default = '1'
+      menu.select_by = :index
+    end
+  end
+
+  # Download subtitle
+  sub_file = search.download_subtitle(subtitles, options[:path])
+
+  # Rename file to match the video if it exists
+  if options[:rename] && File.exist?(options[:search])
+    # Extract video filename without extension
+    filename = File.basename(options[:search], File.extname(options[:search]))
+    FileUtils.mv(sub_file, "#{filename}#{File.extname(sub_file)}")
+  end
+
+  cli.say 'Subtitle downloaded successfully!'.green
+rescue Interrupt, EOFError
+  cli.say 'Interrupted!'.red
+rescue SocketError
+  cli.say "Couldn't perform action. Are you online?".red
+end
