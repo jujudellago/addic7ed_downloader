@@ -36,6 +36,10 @@ module Addic7edDownloader
       "#{@showname.split.map(&:capitalize).join(' ')} #{sprintf('%02dx%02d', @season, @episode)}"
     end
 
+    def extract_tags(filename)
+      @tags = filename[TAGS_REGEXP, :tags].split(TAGS_FILTER_REGEXP) if filename
+    end
+
     def results
       @results ||= build_subtitles_list
     end

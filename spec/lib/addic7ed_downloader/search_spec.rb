@@ -22,6 +22,15 @@ shared_examples 'a file search' do |filename, showname, season, episode, tag|
   end
 end
 
+shared_examples 'extract_tags' do |filename, tag|
+  context "with #{filename}" do
+    it 'parses the tags' do
+      subject.extract_tags(filename)
+      expect(subject.tags).to include(tag)
+    end
+  end
+end
+
 describe Addic7edDownloader::Search do
   subject { build :search }
   let(:success_url) { 'http://www.addic7ed.com/serie/Game+Of+Thrones/6/2/1' }
@@ -67,5 +76,29 @@ describe Addic7edDownloader::Search do
     it_behaves_like 'a file search',
                     'Scrubs.S06E19.PDTV.XviD-XOR.avi',
                     'Scrubs', 6, 19, 'XOR'
+  end
+
+  describe '#extract_tags' do
+    context 'with no arguments' do
+      it 'does nothing with nil' do
+        subject.extract_tags(nil)
+        expect(subject.tags).to eq([])
+      end
+
+      it 'empties with empty string' do
+        subject.extract_tags(nil)
+        expect(subject.tags).to eq([])
+      end
+    end
+
+    context 'with a filename' do
+      it_behaves_like 'extract_tags',
+                      'Game of Thrones S06E03 1080p HDTV x264-BATV[ettv].mkv',
+                      'BATV'
+
+      it_behaves_like 'extract_tags',
+                      'Game of Thrones S06E03 Oathbreaker 1080p WEB-DL DD5 1 H264-NTb[rartv].mkv',
+                      'WEB-DL'
+    end
   end
 end
