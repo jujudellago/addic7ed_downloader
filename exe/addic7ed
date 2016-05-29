@@ -78,7 +78,7 @@ begin
   if options[:auto]
     subtitles = search.find_best_subtitle
   else
-    cli.say "Search results for #{search}. Choose the file:"
+    cli.say "Search results for #{search}:"
     subtitles = cli.choose(*search.results) do |menu|
       menu.default = '1'
       menu.select_by = :index
