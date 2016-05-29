@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/addic7ed_downloader.svg)](https://badge.fury.io/rb/addic7ed_downloader) [![Build Status](https://travis-ci.org/iovis9/addic7ed_downloader.svg?branch=master)](https://travis-ci.org/iovis9/addic7ed_downloader) [![Dependency Status](https://gemnasium.com/badges/github.com/iovis9/addic7ed_downloader.svg)](https://gemnasium.com/github.com/iovis9/addic7ed_downloader)
+
 # Addic7edDownloader
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/addic7ed_downloader`. To experiment with that code, run `bin/console` for an interactive prompt.
