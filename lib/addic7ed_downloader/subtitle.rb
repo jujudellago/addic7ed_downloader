@@ -14,9 +14,10 @@ module Addic7edDownloader
     end
 
     def to_s
-      str = "Version #{@version} (#{@language}): #{@complete} [#{@downloads} Downloads]"
-      str << " — #{@notes}" unless @notes.empty?
-      str
+      "Version #{@version} " \
+      "(#{@language}#{', Hearing Impaired' if @hi})" \
+      "#{': ' << @notes unless @notes.empty?}" \
+      " [#{@downloads} Downloads]"
     end
 
     # We can sort by downloads number
