@@ -56,6 +56,10 @@ describe Addic7edDownloader::Subtitle do
     it 'returns false if nothing matches' do
       expect(subject.works_with?('DIMENSION')).to be_falsey
     end
+
+    it "doesn't explode if notes are empty" do
+      expect(subtitles_uncompleted.works_with?('POTATO')).to be_falsey
+    end
   end
 
   it 'orders by downloads count' do

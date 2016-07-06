@@ -35,7 +35,7 @@ module Addic7edDownloader
     end
 
     def works_with?(tag)
-      @version.include?(tag) || @notes[/works? with \"?([^\"\s]+)/i, 1]&.include?(tag)
+      @version.include?(tag) || @notes[/works? with \"?([^\"\s]+)/i, 1].to_s.include?(tag)
     end
 
     private
