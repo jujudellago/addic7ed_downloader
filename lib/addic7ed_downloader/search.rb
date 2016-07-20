@@ -24,7 +24,8 @@ module Addic7edDownloader
     end
 
     def initialize(showname, season, episode, options = {})
-      @showname = showname.tr('.', ' ')
+      # Replace dots with spaces only if not followed by a space (Mr. Robot)
+      @showname = showname.gsub(/\.(\S)/, ' \1')
       @season = season.to_i
       @episode = episode.to_i
 

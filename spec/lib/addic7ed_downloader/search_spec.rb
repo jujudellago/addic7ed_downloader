@@ -76,6 +76,10 @@ describe Addic7edDownloader::Search do
     it_behaves_like 'a file search',
                     'Scrubs.S06E19.PDTV.XviD-XOR.avi',
                     'Scrubs', 6, 19, 'XOR'
+
+    it_behaves_like 'a file search',
+                    'Mr. Robot S02E01 720p WEBRip AAC2 0 H 264-KNiTTiNG[ettv].mkv',
+                    'Mr. Robot', 2, 1, 'WEBRip'
   end
 
   describe '#extract_tags' do
