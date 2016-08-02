@@ -1,7 +1,7 @@
 module Addic7edDownloader
   # Assuming: "SHOWNAME - SEASON&EPISODE - TAGS"
   SEASON_EPISODE_REGEXP = /s(?<season>\d{1,2})e(?<episode>\d{1,2})|(?<season>\d{1,2})x(?<episode>\d{1,2})/i
-  SHOWNAME_REGEXP = /(?<showname>[\w\s\.]+?)[\s\.-]*?#{SEASON_EPISODE_REGEXP}/i
+  SHOWNAME_REGEXP = /(?<showname>['\w\s\.]+?)[\s\.-]*?#{SEASON_EPISODE_REGEXP}/i
   TAGS_REGEXP = /#{SEASON_EPISODE_REGEXP}[\s\.-]?(?<tags>.*)/i  # Get the end of file
   TAGS_FILTER_REGEXP = /(?<!WEB)-(?!DL)|[\.\s\(\)\[\]]+/i       # Filter '-', but not 'WEB-DL'
 

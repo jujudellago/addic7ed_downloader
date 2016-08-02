@@ -80,6 +80,10 @@ describe Addic7edDownloader::Search do
     it_behaves_like 'a file search',
                     'Mr. Robot S02E01 720p WEBRip AAC2 0 H 264-KNiTTiNG[ettv].mkv',
                     'Mr. Robot', 2, 1, 'WEBRip'
+
+    it_behaves_like 'a file search',
+                    "It's Always Sunny in Philadelphia s04e01 - Mac & Dennis Manhunters.avi",
+                    "It's Always Sunny in Philadelphia", 4, 1, 'Mac'
   end
 
   describe '#extract_tags' do
