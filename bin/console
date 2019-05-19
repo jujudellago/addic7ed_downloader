@@ -5,6 +5,8 @@ require 'addic7ed_downloader'
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
+filename = "It's Always Sunny in Philadelphia s04e01 - Mac & Dennis Manhunters.avi"
+search = Addic7edDownloader::Search.by_filename(filename)
 
 # (If you use this, don't forget to add pry to your Gemfile!)
 require 'pry'
