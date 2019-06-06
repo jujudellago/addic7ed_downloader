@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/addic7ed_downloader.svg)](https://badge.fury.io/rb/addic7ed_downloader) [![Build Status](https://travis-ci.org/iovis9/addic7ed_downloader.svg?branch=master)](https://travis-ci.org/iovis9/addic7ed_downloader) [![Dependency Status](https://gemnasium.com/badges/github.com/iovis9/addic7ed_downloader.svg)](https://gemnasium.com/github.com/iovis9/addic7ed_downloader)
+[![Gem Version](https://badge.fury.io/rb/addic7ed_downloader.svg)](https://badge.fury.io/rb/addic7ed_downloader) [![Build Status](https://travis-ci.org/iovis/addic7ed_downloader.svg?branch=master)](https://travis-ci.org/iovis/addic7ed_downloader)
 
 # Addic7edDownloader
 
