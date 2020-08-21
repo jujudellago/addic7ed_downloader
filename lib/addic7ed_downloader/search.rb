@@ -22,6 +22,15 @@ module Addic7edDownloader
       # Failed to parse
       nil
     end
+    # search = Addic7edDownloader::Search.by_attributes("24",1,5, {lang: "en"})
+    
+    def self.by_attributes(title, season_number, episode_number, options={})
+        #options[:tags] = filename[TAGS_REGEXP, :tags].split(TAGS_FILTER_REGEXP)
+        new(title, season_number, episode_number, options)
+      rescue NoMethodError
+        # Failed to parse
+        nil            
+    end
 
     def initialize(showname, season, episode, options = {})
       # Replace dots with spaces only if not followed by a space (Mr. Robot)

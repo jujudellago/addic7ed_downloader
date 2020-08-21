@@ -1,7 +1,7 @@
 module Addic7edDownloader
   class Subtitle
     include Comparable
-    attr_accessor :version, :language, :url, :downloads, :notes
+    attr_accessor :version, :language, :url, :downloads, :notes, :hi
 
     def initialize(nokogiri_fragment)
       @version  = nokogiri_fragment.at('.NewsTitle').text[/\AVersion (.*?),/, 1]
